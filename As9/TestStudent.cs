@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace As9
+{
+    internal class TestStudent
+    {
+        public void Menu()
+        {
+            StudentCollection students = new StudentCollection();
+            int choice = 0;
+
+            do
+            {
+                Console.WriteLine("================MENU==================");
+                Console.WriteLine("1.   Add new student.");
+                Console.WriteLine("2.   Display all students.");
+                Console.WriteLine("3.   Display passed students.");
+                Console.WriteLine("4.   Search students by name.");
+                Console.WriteLine("5.   Remove a student by ID.");
+                Console.WriteLine("6.   Quit.");
+                Console.WriteLine("======================================");
+                Console.WriteLine("Nhap lua chon: ");
+                choice = int.Parse(Console.ReadLine());
+
+                switch (choice)
+                {
+                    case 1:
+                        Console.WriteLine("1.   Add new student.");
+                        students.Add();
+                        break;
+                    case 2:
+                        Console.WriteLine("2.   Display all students.");
+                        students.DisplayAll();
+                        break;
+                    case 3:
+                        Console.WriteLine("3.   Display passed students.");
+                        students.GetEnumerators().ToList().ForEach(x => x.Display());
+                        break;
+                    case 4:
+                        Console.WriteLine("4.   Search students by name.");
+                        Console.Write("Nhap ten can tim: ");
+                        string nameFind = Console.ReadLine().Trim();
+                        students.Search(nameFind);
+                        break;
+                    case 5:
+                        Console.WriteLine("5.   Remove a student by ID.");
+                        Console.Write("Nhap id can xoa: ");
+                        string idFind = Console.ReadLine().Trim();
+                        students.Remove(idFind);
+                        break;
+                    case 6:
+                        Console.WriteLine("6.   Quit.");
+                        break;
+                    default:
+                        Console.WriteLine("Nhap sai! Vui long nhap lai");
+                        break;
+                }
+            } while (choice != 6);
+        }
+    }
+}
