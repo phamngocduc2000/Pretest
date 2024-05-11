@@ -1,8 +1,19 @@
 ﻿namespace As9;
 
+public enum StudentActionEnum
+{
+    None,
+    Add,
+    DisplayAll,
+    DisplayPassed,
+    SearchByName,
+    DeleteById,
+    Exit
+}
+
 public class StudentFunction
 {
-    public int Key { get; set; }
+    public StudentActionEnum Key { get; set; }
 
     public string Display { get; set; }
 
@@ -30,7 +41,7 @@ public class StudentFunctionCollection
 
     public void Show()
     {
-        int choice = 0;
+        StudentActionEnum choice = StudentActionEnum.None;
         int fnCount = _functions.Count;
 
         void DisplayFunctions()
@@ -38,33 +49,45 @@ public class StudentFunctionCollection
             Console.WriteLine("================MENU==================");
             foreach (var fn in _functions)
             {
-                Console.WriteLine($"{fn.Key}.{fn.Display}");
+                Console.WriteLine($"{(int)fn.Key}. {fn.Display}");
             }
-            Console.WriteLine($"{fnCount + 1}.Quit.");
+            
+            if(!_functions.Any(x => x.Key ==StudentActionEnum.Exit))
+                Console.WriteLine($"{(int)StudentActionEnum.Exit}. Quit.");
+
             Console.WriteLine("======================================");
         }
 
-        while (choice != fnCount + 1)
+        while (true)
         {
 
             DisplayFunctions();
             Extension.TryToGetInputValue(
-                "Nhap lua chon:", 
-                out choice, () =>{
+                "Nhap lua chon:",
+                out int _input,
+                () =>
+                {
                     Console.Clear();
                     DisplayFunctions();
                 }
             );
 
-            if (choice == (fnCount + 1))
-            {
-                Console.WriteLine("----Exit----");
-                return;
-            }
+            choice = (StudentActionEnum)_input;
 
             var function = _functions.FirstOrDefault(
                 x => x.Key == choice
             );
+
+            if (choice == StudentActionEnum.Exit)
+            {
+                if (function is not null)
+                {
+                    function.Action();
+                    return;
+                }
+                Console.WriteLine("----Exit----");
+                return;
+            }
 
             if (function is null)
             {

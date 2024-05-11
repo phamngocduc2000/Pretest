@@ -66,19 +66,19 @@
             functions.Add(
                 new StudentFunction()
                 {
-                    Key = 1,
+                    Key = StudentActionEnum.Add,
                     Display = "Add new student.",
                     Action = students.Add
                 },
                 new StudentFunction()
                 {
-                    Key = 2,
+                    Key = StudentActionEnum.DisplayAll,
                     Display = "Display all students.",
                     Action = students.DisplayAll
                 },
                 new StudentFunction()
                 {
-                    Key = 3,
+                    Key = StudentActionEnum.DisplayPassed,
                     Display = "Display passed students.",
                     Action = () =>{
                         students.GetEnumerators().ToList().ForEach(x => x.Display());
@@ -86,7 +86,7 @@
                 },
                 new StudentFunction()
                 {
-                    Key = 4,
+                    Key = StudentActionEnum.SearchByName,
                     Display = "Search students by name.",
                     Action = () =>
                     {
@@ -96,8 +96,8 @@
                 },
                 new StudentFunction()
                 {
-                    Key = 5,
-                    Display = "Search students by name.",
+                    Key = StudentActionEnum.DeleteById,
+                    Display = "Remove a student by ID.",
                     Action = () =>
                     {
                         Extension.TryToGetInputValue("Nhap id can xoa:", out string idFind);

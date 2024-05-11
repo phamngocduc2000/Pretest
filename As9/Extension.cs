@@ -2,7 +2,7 @@
 
 public static class Extension
 {
-    public static T TryToGetInputValue<T>(string message, Action? fallback = null) where T : notnull
+    public static T? TryToGetInputValue<T>(string message, Action? fallback = null) 
     {
         while (true)
         {
@@ -20,15 +20,17 @@ public static class Extension
             }
             catch
             {
-                if(fallback is not null)
+                if(fallback is not null){
                     fallback();
+                    return default;
+                }
                 Console.WriteLine("Nhap lai:");
             }
         }
     }
 
-    public static void TryToGetInputValue<T>(string message, out T item,  Action? fallback = null) where T : notnull
+    public static void TryToGetInputValue<T>(string message, out T item,  Action? fallback = null)
     {
-        item = TryToGetInputValue<T>(message, fallback);
+        item = TryToGetInputValue<T>(message, fallback)!;
     }
 }
