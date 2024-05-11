@@ -1,68 +1,39 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 
 namespace As9
 {
+
+
+
     internal class StudentCollection : IEnumerable<Student>
     {
         List<Student> stList = new List<Student>();
 
         public void Add()
         {
+
             Student student = new Student();
-            while (true)
-            {
-                try
-                {
-                    Console.Write("Nhap id(STxxx[xx]): ");
-                    student.pId = Console.ReadLine().Trim();
-                    break;
-                }
-                catch (FormatException e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-            }
 
-            Console.Write("Nhap Name: ");
-            student.fullName = Console.ReadLine().Trim();
+            student.pId = Extension.TryToGetInputValue<string>(
+                "Nhap id(STxxx[xx]): "
+            );
 
-            while (true)
-            {
-                try
-                {
-                    Console.Write("Nhap diem Maths: ");
-                    student.pMaths = int.Parse(Console.ReadLine().Trim());
-                    break;
-                }
-                catch (FormatException e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-            }
+            student.fullName = Extension.TryToGetInputValue<string>(
+                "Nhap name: "
+            );
 
-            while (true)
-            {
-                try
-                {
-                    Console.Write("Nhap diem English: ");
-                    student.pEnglish = int.Parse(Console.ReadLine().Trim());
-                    break;
-                }
-                catch (FormatException e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-            }
+            student.pMaths = Extension.TryToGetInputValue<int>(
+                "Nhap diem Maths: "
+            );
+
+            student.pEnglish = Extension.TryToGetInputValue<int>(
+                "Nhap diem English: "
+            );
 
             stList.Add(student);
         }
 
-        public IEnumerator<Student> GetEnumerator()
+        public IEnumerable<Student> GetEnumerator()
         {
             if (stList.Count == 0)
             {
@@ -76,10 +47,7 @@ namespace As9
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+
 
         public IEnumerable<Student> GetEnumerators()
         {
@@ -91,7 +59,7 @@ namespace As9
 
             foreach (Student stu in stList)
             {
-                if (stu.pAvg() >= 40)
+                if (stu.pAvg >= 40)
                 {
                     yield return stu;
                 }
@@ -115,7 +83,8 @@ namespace As9
                     flat = true;
                 }
             }
-            if (!flat) {
+            if (!flat)
+            {
                 Console.WriteLine("Ten can tim khong ton tai trong danh sach.");
             }
         }
@@ -127,9 +96,9 @@ namespace As9
                 Console.WriteLine("Danh sach chua co du lieu.");
                 return;
             }
-            foreach(Student s in stList)
+            foreach (Student s in stList)
             {
-                if(s.pId.ToLower() == id.ToLower())
+                if (s.pId.ToLower() == id.ToLower())
                 {
                     stList.Remove(s);
                     Console.WriteLine("Da xoa thanh cong.");
@@ -145,6 +114,17 @@ namespace As9
             {
                 student.Display();
             }
+        }
+
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            yield return stList;
+        }
+
+        IEnumerator<Student> IEnumerable<Student>.GetEnumerator()
+        {
+            return (IEnumerator<Student>)GetEnumerator().ToList();
         }
     }
 }
