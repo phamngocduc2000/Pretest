@@ -1,33 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
 namespace As9
 {
-    internal delegate void DMess(string s);
+    internal delegate void DMess(string msg);
 
     internal class Student
     {
-        private string id;
+        private string _id;
         private int maths, english;
         public string fullName;
 
         event DMess EMess;
 
+
         public string pId
         {
             get
             {
-                return id;
+                return _id;
             }
             set
             {
                 if (Regex.IsMatch(value, "^ST\\d{3}\\d{0,2}$"))
                 {
-                    id = value;
+                    _id = value;
                 }
                 else
                 {
@@ -35,24 +31,18 @@ namespace As9
                 }
             }
         }
+
         public int pMaths
         {
-            get
-            {
-                return maths;
-            }
             set
             {
-                if (value >= 0 && value <= 100)
-                {
-                    maths = value;
-                }
-                else
-                {
-                    EMess("Nhap diem trong khoan tu 0 den 100");
-                }
+                if (value < 0 || value > 100)
+                    EMess("Value must greater than 0 and less than 100");
+                maths = value;
             }
         }
+
+
         public int pEnglish
         {
             get
@@ -72,19 +62,16 @@ namespace As9
             }
         }
 
-        public float pAvg()
-        {
-            return (maths + english) / 2;
-        }
+        public float pAvg => (maths + english) / 2;
 
         public void Display()
         {
-            Console.WriteLine($"Id: {id}, Name: {fullName}, Maths: {maths}, English: {english}, Average: {pAvg()}");
+            Console.WriteLine($"Id: {_id}\n Name: {fullName}, Maths: {maths}, English: {english}, Average: {pAvg}");
         }
 
-        public void VadidProcess(string s)
+        public void VadidProcess(string msg)
         {
-            throw new FormatException(s);
+            throw new ArgumentOutOfRangeException(msg);
         }
 
         //dang ky event
